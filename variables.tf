@@ -26,3 +26,4 @@ variable "domainname" {
 variable "arecord" {
     default = "home"
 }
+

@@ -1,0 +1,11 @@
+# Terraform Folder
+.terraform/
+
+# VS Code
+.vscode/
+
+# Terraform State 
+terraform.tfstate*
+
+# Local variables
+variables.jlo.tf
