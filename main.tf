@@ -56,7 +56,7 @@ resource "azurerm_azuread_service_principal" "sp" {
   application_id = "${azurerm_azuread_application.app.application_id}"
 
   provisioner "local-exec" {
-      command = "ping 127.0.0.1 -n 30"
+      command = "ping 127.0.0.1 -n 45"
   }
 }
 
@@ -103,7 +103,6 @@ resource "azurerm_function_app" "function" {
     RecordSetName             = "${var.arecord}"
     }
   
-  # @Phil - hier ist der 
   provisioner "local-exec" {
     command     = "az functionapp deployment source config --name ${azurerm_function_app.function.name} --repo-url https://github.com/teilmeier/azure-functions-dyndns --resource-group ${var.rg} --manual-integration"
   }
