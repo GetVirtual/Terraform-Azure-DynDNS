@@ -55,6 +55,7 @@ resource "azurerm_azuread_application" "app" {
 resource "azurerm_azuread_service_principal" "sp" {
   application_id = "${azurerm_azuread_application.app.application_id}"
 
+  # Sleep workaround for the service principal creation (SP is successfully created but needs about 30s until it is useable)
   provisioner "local-exec" {
       command = "ping 127.0.0.1 -n 45"
   }
