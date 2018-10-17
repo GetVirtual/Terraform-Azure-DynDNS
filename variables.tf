@@ -1,29 +1,28 @@
 # Subscription ID
 variable "subscriptionid" {
-    description = "Please enter your existing subscription ID:"
+    default = "your subscription id"
 }
 
 variable "tenantid" {
-    description = "Please enter your existing Azure AD tenant ID:"
+    default = "your tenant id"
 }
 
 # Ressource Group Name
 variable "rg" {
-    description = "Please enter the name for the Ressource Group"
+    default = "DynDNS"
 }
 
 # Azure Region
 variable "region" {
-    description = "Please enter the Azure Region to be used (e.g. West Europe)"
+    default = "West Europe"
 }
 
 # AzureDNS Domain Name
 variable "domainname" {
-    description = "Please enter the domain name you own (e.g. yourdomain.com)"
+    default = "dyndnstest.com"
 }
 
 # AzureDNS A Record
 variable "arecord" {
-    description = "Please enter the a-record you want to use (e.g. home)"
+    default = "home"
 }
-
