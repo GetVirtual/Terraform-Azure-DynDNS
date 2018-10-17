@@ -18,7 +18,9 @@ This terraform template deploys/does the following services:
 * Azure CLI     https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 
 ## First-time setup ##
-* Download & install the requirements
+* Download & install the above requirements
+* Clone the repo to your local folder
+* Add the terraform executeable to the PATH variable (or copy it to the repo folder)
 * Modify variables.tf for the correct values in your environment
 ~~~~
 terraform init
