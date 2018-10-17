@@ -1,19 +1,27 @@
+## Authors ##
+* Philip Teilmeier: Source code for the Azure Function "magic"
+* Jürgen Lobenz:    Terraform Template for deployment
+
 ## Description ##
 
-This terraform template deploys the following services:
-* Azure DNS Zone
-* Azure Function & App Service Plan
-* Azure Storage Account (for the Azure Function)
-* Service Principal within your AzureAD to allow the function app to modify the DNS Zone
+This terraform template deploys/does the following services:
+* Create: Ressource Group
+* Create: Azure DNS Zone & A-Record
+* Create: App Service Plan & Azure Function
+* Create: Azure Storage Account (for the Azure Function)
+* Create: Service Principal within your AzureAD 
+* Assign the Service Prinicipal the "DNS Zone Contributor" role
+* Connect the Azure Function to get the source code from https://github.com/teilmeier/azure-functions-dyndns
 
 ## Requirements ##
 * Terraform     https://www.terraform.io/downloads.html
 * Azure CLI     https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
 
 ## First-time setup ##
+* Download & install the requirements
+* Modify variables.tf for the correct values in your environment
 ~~~~
 terraform init
-Set variables to your environment in variables.tf
 ~~~~
 
 ## Variables ##
