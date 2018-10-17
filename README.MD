@@ -40,3 +40,5 @@ az login
 terraform plan
 terraform apply
 ~~~~
+
+After the successful deployment with terraform the function app will fetch the source code from github and deploy it. This will take some minutes and will be finished when you see the "UpdateDNS" function.
