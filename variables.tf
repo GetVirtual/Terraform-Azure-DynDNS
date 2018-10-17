@@ -8,6 +8,7 @@ variable "tenantid" {
 }
 
 # Ressource Group Name
+variable "rg" {
     description = "Please enter the name for the Ressource Group"
 }
 
