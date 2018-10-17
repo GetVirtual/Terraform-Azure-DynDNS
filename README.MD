@@ -4,7 +4,7 @@
 
 ## Description ##
 
-This terraform template deploys/does the following services:
+This terraform template deploys the following services:
 * Create: Ressource Group
 * Create: Azure DNS Zone & A-Record
 * Create: App Service Plan & Azure Function
