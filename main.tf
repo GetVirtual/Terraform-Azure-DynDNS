@@ -2,13 +2,6 @@
 # Deploys: AzureDNS, AzureFunction, StorageAccount, ServicePrincipal
 
 
-# TODO
-/*
-- Ask for Variables
-- Handover ZIP Package Deployment
-- Service Principal Delay
-*/
-
 resource "random_string" "randomstring" {
   length  = 8
   special = false
