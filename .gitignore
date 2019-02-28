@@ -9,3 +9,4 @@ terraform.tfstate*
 
 # Local variables
 variables.jlo.tf
+variables.tf

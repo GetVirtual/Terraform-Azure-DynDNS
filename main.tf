@@ -1,6 +1,13 @@
 # Terraform Template "Azure DynDNS"
 # Deploys: AzureDNS, AzureFunction, StorageAccount, ServicePrincipal
+provider "azurerm" {
+  version = "=1.22.1"
+  subscription_id = "${var.subscriptionid}"
+}
 
+provider "azuread" {
+  version = "=0.1.0"
+}
 
 resource "random_string" "randomstring" {
   length  = 8
@@ -12,12 +19,11 @@ resource "random_string" "randomstring" {
 resource "random_string" "password" {
   length = 24
   special = true
-  
 }
 
 # Create Ressource Group
 resource "azurerm_resource_group" "rg" {
-  name      = "${var.rg}"
+  name      = "${var.resourcegroupname}"
   location  = "${var.region}"
 }
 
@@ -45,33 +51,27 @@ resource "azurerm_storage_account" "sa" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_azuread_application" "app" {
+resource "azuread_application" "app" {
   name     = "DynDNS-${random_string.randomstring.result}"
   homepage = "https://DynDNS-${random_string.randomstring.result}"
   available_to_other_tenants = false
   oauth2_allow_implicit_flow = true
 }
 
-resource "azurerm_azuread_service_principal" "sp" {
-  application_id = "${azurerm_azuread_application.app.application_id}"
-
-  # Sleep workaround for the service principal creation (SP is successfully created but needs about 30s until it is useable)
-  provisioner "local-exec" {
-      command = "ping 127.0.0.1 -n 45"
-  }
+resource "azuread_service_principal" "sp" {
+  application_id = "${azuread_application.app.application_id}"
 }
 
-resource "azurerm_azuread_service_principal_password" "spsecret" {
-  service_principal_id = "${azurerm_azuread_service_principal.sp.id}"
+resource "azuread_service_principal_password" "spsecret" {
+  service_principal_id = "${azuread_service_principal.sp.id}"
   value                = "${random_string.password.result}"
-  end_date             = "2100-01-01T01:02:03Z"
+  end_date             = "2030-01-01T01:02:03Z"
 }
-
 
 resource "azurerm_role_assignment" "roleassign" {
   scope                 = "${azurerm_dns_zone.dnszone.id}"
   role_definition_name  = "DNS Zone Contributor"
-  principal_id          = "${azurerm_azuread_service_principal.sp.id}"
+  principal_id          = "${azuread_service_principal.sp.id}"
 }
 
 resource "azurerm_app_service_plan" "serviceplan" {
@@ -96,16 +96,21 @@ resource "azurerm_function_app" "function" {
 
   app_settings {
     TenantId                  = "${var.tenantid}"
-    AppId                     = "${azurerm_azuread_application.app.application_id}"
-    AppSecret                 = "${azurerm_azuread_service_principal_password.spsecret.value}"
+    AppId                     = "${azuread_application.app.application_id}"
+    AppSecret                 = "${azuread_service_principal_password.spsecret.value}"
     SubscriptionId            = "${var.subscriptionid}" 
-    ResourceGroupName         = "${var.rg}"
+    ResourceGroupName         = "${var.resourcegroupname}"
     ZoneName                  = "${var.domainname}"
     RecordSetName             = "${var.arecord}"
     }
   
+
   provisioner "local-exec" {
-    command     = "az functionapp deployment source config --name ${azurerm_function_app.function.name} --repo-url https://github.com/teilmeier/azure-functions-dyndns --resource-group ${var.rg} --manual-integration"
+    command     = "az account set --subscription ${subscriptionid}"
+  }
+
+  provisioner "local-exec" {
+    command     = "az functionapp deployment source config --name ${azurerm_function_app.function.name} --repo-url https://github.com/teilmeier/azure-functions-dyndns --resource-group ${var.resourcegroupname} --manual-integration"
   }
 }
 
