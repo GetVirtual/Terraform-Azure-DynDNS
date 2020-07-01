@@ -13,6 +13,11 @@ This terraform template deploys the following services:
 * Assign the Service Prinicipal the "DNS Zone Contributor" role
 * Connect the Azure Function to get the source code from https://github.com/teilmeier/azure-functions-dyndns
 
+## Versions ##
+* tf 0.12.28
+* azure provider 2.16.0 (pinned)
+* azuread 0.10.0
+
 ## Requirements ##
 * Terraform     https://www.terraform.io/downloads.html
 * Azure CLI     https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
@@ -31,17 +36,20 @@ terraform init
 * Azure Ressource Group Name
 * Azure Region
 * DNS Zonename
-* DNS A-Record
+* DNS A-Record (default: home)
 * Azure Tenant ID
 
 ## Usage ##
+
+Deploy it with terraform to your Azure subscription.
 ~~~~
 az login
 terraform plan
 terraform apply
 ~~~~
 
-After the successful deployment with terraform the function app will fetch the source code from github and deploy it. This will take some minutes and will be finished when you see the "UpdateDNS" function.
+After the successful deployment with terraform the function app will fetch the source code from github and deploy it. 
+This will take some minutes and will be finished when you see the "UpdateDNS" function.
 
-Get the Function URL - it will look like:
-https://functionURL/api/UpdateDns?code=authcodeforfunction&ip=valueforIP
+Get the Function URL - it will look like this: https://functionURL/api/UpdateDns?code=authcodeforfunction&ip=valueforIP
+Now you can update your arecord.dnszonename when you call the function and transmit an ip adress.

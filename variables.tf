@@ -1,14 +1,15 @@
 # Subscription ID
 variable "subscriptionid" {
-    default = "your subscription id"
+
 }
 
-variable "tenantid" {
-    default = "your tenant id"
+# Tenant ID
+variable "tenantid" { 
+
 }
 
 # Ressource Group Name
-variable "rg" {
+variable "resourcegroupname" {
     default = "DynDNS"
 }
 
@@ -19,7 +20,7 @@ variable "region" {
 
 # AzureDNS Domain Name
 variable "domainname" {
-    default = "dyndnstest.com"
+    
 }
 
 # AzureDNS A Record

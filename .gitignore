@@ -1,14 +1,14 @@
 # Terraform Folder
 .terraform/
 
-# VS Code
-.vscode/
-
 # Terraform State 
 terraform.tfstate*
+.terraform.tfstate.lock.info
 
-# Local variables
-variables.jlo
+# Local vars
+terraform.tfvars
 
+# VS Code
+.vscode/
 
 
